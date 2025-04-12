@@ -23,6 +23,15 @@ Alternatively, you can use Docker Compose to run all services.
 3. Configure environment variables:
    - Copy `.env.example` to `.env`
    - Update the configuration as needed
+4. Initialize the database with seed data:
+   ```
+   npm run seed
+   ```
+   This will create:
+   - A default admin user
+   - Default categories
+   - Default tags
+   - Ensure all database indexes are created
 
 ### Option 2: Docker Compose
 
@@ -35,6 +44,10 @@ Alternatively, you can use Docker Compose to run all services.
    - The Node.js backend on port 5000
    - MongoDB on port 27017
    - MinIO on ports 9000 (API) and 9001 (Console)
+3. Initialize the database (if it's a fresh installation):
+   ```
+   docker exec blog-panel-backend npm run seed
+   ```
 
 ## Running the Application
 
@@ -92,9 +105,25 @@ blog_panel_back/
 ├── middleware/        # Custom middleware
 ├── models/            # Database models
 ├── routes/            # API routes
+├── scripts/           # Utility scripts
+│   └── seed.js        # Database initialization script
 ├── .env               # Environment variables
 ├── docker-compose.yml # Docker Compose configuration
 ├── Dockerfile         # Docker configuration
 ├── index.js           # Entry point
 └── package.json       # Project dependencies
-``` 
+```
+
+## Database Initialization
+
+On first run, you should initialize the database with the seed script. This ensures:
+
+1. The necessary database indexes are created for optimal performance
+2. A default admin user is created (if none exists)
+3. Default categories and tags are set up
+4. The MinIO bucket for file storage is properly initialized
+
+You can customize the default admin credentials by setting these environment variables:
+- `ADMIN_USERNAME` (default: "admin")
+- `ADMIN_EMAIL` (default: "admin@example.com")
+- `ADMIN_PASSWORD` (default: "admin123") 
