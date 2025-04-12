@@ -3,7 +3,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const { initializeBucket } = require('./config/minio');
-const { initializeDatabase } = require('./config/dbInit');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -55,13 +54,7 @@ app.listen(PORT, () => {
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/blog_panel')
-  .then(() => {
-    console.log('Connected to MongoDB');
-    // Initialize database and create collections
-    // Pass true to seed with initial data, or false to just create collections
-    const shouldSeedData = process.env.SEED_DATABASE !== 'false';
-    initializeDatabase(shouldSeedData);
-  })
+  .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB', err));
 
 module.exports = app; 
